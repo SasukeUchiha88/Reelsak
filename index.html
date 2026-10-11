@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReelBoost 2K - Instagram Reel Downloader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .header { text-align: center; margin: 40px 0 30px; }
+    .logo {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; font-size: 28px; font-weight: 700; margin-bottom: 12px;
+    }
+    .logo span {
+      background: linear-gradient(90deg, #a855f7, #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .tagline { font-size: 18px; color: #c4b5fd; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; color: #a1a1aa; }
+    .card {
+      background: rgba(30, 27, 75, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 24px;
+      padding: 28px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .section-title { font-size: 14px; font-weight: 600; color: #e9d5ff; margin-bottom: 14px; }
+    .media-types {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; margin-bottom: 24px;
+    }
+    .media-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 14px 8px;
+      color: #d4d4d8;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .media-btn:hover { background: rgba(168, 85, 247, 0.15); }
+    .media-btn.active {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: #a855f7; color: #fff;
+    }
+    .media-btn span { font-size: 22px; }
+    .input-group { margin-bottom: 20px; }
+    .input-group label { display: block; font-size: 13px; color: #c4b5fd; margin-bottom: 8px; }
+    .input-wrapper { position: relative; }
+    .input-wrapper input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 14px;
+      padding: 16px 16px 16px 44px;
+      color: #fff; font-size: 15px; outline: none;
+    }
+    .input-wrapper input:focus { border-color: #a855f7; }
+    .input-wrapper input::placeholder { color: #71717a; }
+    .input-icon {
+      position: absolute; left: 16px; top: 50%;
+      transform: translateY(-50%); font-size: 18px; opacity: 0.7;
+    }
+    .download-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #a855f7, #ec4899);
+      border: none; border-radius: 14px;
+      padding: 16px; color: white;
+      font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .download-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.4);
+    }
+    .download-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .status {
+      margin-top: 18px; padding: 14px; border-radius: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      font-size: 14px; color: #d4d4d8;
+      text-align: center; min-height: 48px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .status.success { background: rgba(34, 197, 94, 0.15); color: #86efac; }
+    .status.error { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .status.loading { background: rgba(168, 85, 247, 0.15); color: #d8b4fe; }
+    .note { margin-top: 20px; font-size: 12px; color: #71717a; text-align: center; line-height: 1.5; }
+    .footer { margin-top: 40px; font-size: 13px; color: #71717a; }
+    @media (max-width: 480px) {
+      .media-types { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">⚡ <span>ReelBoost 2K</span></div>
+    <div class="tagline">Your Media. Your Way.</div>
+    <div class="subtitle">Instagram Reel Downloader</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Choose media type</div>
+    <div class="media-types">
+      <button class="media-btn active" data-type="reel"><span>🎬</span>Reels</button>
+      <button class="media-btn" data-type="photo"><span>🖼️</span>Photos</button>
+      <button class="media-btn" data-type="video"><span>🎥</span>Videos</button>
+      <button class="media-btn" data-type="story"><span>📖</span>Stories</button>
+    </div>
+
+    <div class="input-group">
+      <label>Paste Instagram link</label>
+      <div class="input-wrapper">
+        <span class="input-icon">🔗</span>
+        <input type="url" id="urlInput" placeholder="https://www.instagram.com/reel/..." autocomplete="off" />
+      </div>
+    </div>
+
+    <button class="download-btn" id="downloadBtn">Download Now →</button>
+    <div class="status" id="status">Choose a media type and paste the Instagram link</div>
+    <div class="note">শুধুমাত্র আপনার নিজের বা অনুমতি আছে এমন কনটেন্ট ডাউনলোড করুন।</div>
+  </div>
+
+  <div class="footer">Made with ❤️ • ReelBoost 2K</div>
+
+  <script>
+    const mediaBtns = document.querySelectorAll('.media-btn');
+    const urlInput = document.getElementById('urlInput');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const status = document.getElementById('status');
+    let selectedType = 'reel';
+
+    mediaBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        mediaBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedType = btn.dataset.type;
+        status.textContent = btn.textContent.trim() + ' selected. Paste the link.';
+        status.className = 'status';
+      });
+    });
+
+    downloadBtn.addEventListener('click', async () => {
+      const url = urlInput.value.trim();
+      if (!url) {
+        showStatus('দয়া করে Instagram লিংক পেস্ট করুন', 'error');
+        return;
+      }
+      if (!url.includes('instagram.com')) {
+        showStatus('শুধুমাত্র Instagram লিংক সাপোর্ট করে', 'error');
+        return;
+      }
+
+      showStatus('ডাউনলোড হচ্ছে... একটু অপেক্ষা করুন', 'loading');
+      downloadBtn.disabled = true;
+      downloadBtn.textContent = 'Processing...';
+
+      try {
+        // পরে ব্যাকএন্ড URL এখানে বসাবেন
+        const response = await fetch('https://YOUR-BACKEND-URL.onrender.com/api/download', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url, type: selectedType })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.downloadUrl) {
+          const a = document.createElement('a');
+          a.href = data.downloadUrl;
+          a.download = (data.title || 'instagram-reel') + '.mp4';
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          showStatus('ডাউনলোড শুরু হয়েছে!', 'success');
+        } else {
+          showStatus(data.error || 'ডাউনলোড করা যায়নি', 'error');
+        }
+      } catch (err) {
+        showStatus('সার্ভারে কানেক্ট করা যায়নি। ব্যাকএন্ড এখনো রেডি নয়।', 'error');
+      } finally {
+        downloadBtn.disabled = false;
+        downloadBtn.textContent = 'Download Now →';
+      }
+    });
+
+    function showStatus(msg, type = '') {
+      status.textContent = msg;
+      status.className = 'status ' + type;
+    }
+  </script>
+</body>
+    </html>
