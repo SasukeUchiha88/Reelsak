@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -134,7 +134,7 @@
 
     <button class="download-btn" id="downloadBtn">Download Now →</button>
     <div class="status" id="status">Choose a media type and paste the Instagram link</div>
-    <div class="note">শুধুমাত্র আপনার নিজের বা অনুমতি আছে এমন কনটেন্ট ডাউনলোড করুন।</div>
+    <div class="note">Only download content you own or have permission to use.</div>
   </div>
 
   <div class="footer">Made with ❤️ • ReelBoost 2K</div>
@@ -159,20 +159,20 @@
     downloadBtn.addEventListener('click', async () => {
       const url = urlInput.value.trim();
       if (!url) {
-        showStatus('দয়া করে Instagram লিংক পেস্ট করুন', 'error');
+        showStatus('Please paste an Instagram link', 'error');
         return;
       }
       if (!url.includes('instagram.com')) {
-        showStatus('শুধুমাত্র Instagram লিংক সাপোর্ট করে', 'error');
+        showStatus('Only Instagram links are supported', 'error');
         return;
       }
 
-      showStatus('ডাউনলোড হচ্ছে... একটু অপেক্ষা করুন', 'loading');
+      showStatus('Downloading... Please wait', 'loading');
       downloadBtn.disabled = true;
       downloadBtn.textContent = 'Processing...';
 
       try {
-        // পরে ব্যাকএন্ড URL এখানে বসাবেন
+        // Replace this with your real backend URL later
         const response = await fetch('https://YOUR-BACKEND-URL.onrender.com/api/download', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -189,12 +189,12 @@
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          showStatus('ডাউনলোড শুরু হয়েছে!', 'success');
+          showStatus('Download started!', 'success');
         } else {
-          showStatus(data.error || 'ডাউনলোড করা যায়নি', 'error');
+          showStatus(data.error || 'Could not download the reel', 'error');
         }
       } catch (err) {
-        showStatus('সার্ভারে কানেক্ট করা যায়নি। ব্যাকএন্ড এখনো রেডি নয়।', 'error');
+        showStatus('Could not connect to server. Backend is not ready yet.', 'error');
       } finally {
         downloadBtn.disabled = false;
         downloadBtn.textContent = 'Download Now →';
@@ -207,4 +207,4 @@
     }
   </script>
 </body>
-    </html>
+</html>
